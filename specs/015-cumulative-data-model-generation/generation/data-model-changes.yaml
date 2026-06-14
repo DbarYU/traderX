@@ -1,0 +1,69 @@
+# data-model-changes.yaml — State 015: Cumulative Data Model Generation
+#
+# This file defines the domain model changes introduced by this state relative
+# to its parent state (014-fdc3-intent-interoperability).
+#
+# This is the seed/example file. Update it to reflect the actual entity changes
+# introduced by this state once the full domain model delta is known.
+
+state: 015-cumulative-data-model-generation
+parent: 014-fdc3-intent-interoperability
+
+# Entities added in this state (must not exist in parent model — VR-01506)
+added:
+  DataModelSnapshot:
+    fields:
+      id: uuid
+      stateId: string
+      parentStateId: string
+      generatedAt: string
+      schemaVersion: string
+    relationships:
+      - entities: EntityDefinition
+
+  EntityDefinition:
+    fields:
+      name: string
+      sourceFile: string
+    relationships: []
+
+  FieldDefinition:
+    fields:
+      name: string
+      type: string
+    relationships:
+      - owner: EntityDefinition
+
+  RelationshipDefinition:
+    fields:
+      name: string
+      targetEntity: string
+    relationships:
+      - owner: EntityDefinition
+
+# Entities modified in this state (must exist in parent model — VR-01501)
+changed: {}
+# Example of what a changed section looks like:
+#
+# changed:
+#   SomeExistingEntity:
+#     fields:
+#       existingField: string   # modify type
+#       newField: boolean       # add a new field to an existing entity
+#     relationships:
+#       - newRel: AnotherEntity
+
+# Entities or fields removed in this state
+removed: {}
+# Example of what a removed section looks like:
+#
+# removed:
+#   SomeExistingEntity:
+#     fields:
+#       legacyField: true
+#     relationships:
+#       - oldRel: true
+#
+# To remove an entire entity:
+# removed:
+#   ObsoleteEntity: {}

@@ -1,0 +1,45 @@
+{
+  "_note": "This file is a generated artifact produced by the domain model parser. Do not edit it directly. Edit data-model-changes.yaml and re-run the generation pipeline.",
+  "state": "015-cumulative-data-model-generation",
+  "parent": "014-fdc3-intent-interoperability",
+  "generatedAt": "PLACEHOLDER — update by running: bash pipeline/generate-state.sh 015-cumulative-data-model-generation",
+  "entities": {
+    "DataModelSnapshot": {
+      "fields": {
+        "id": "uuid",
+        "stateId": "string",
+        "parentStateId": "string",
+        "generatedAt": "string",
+        "schemaVersion": "string"
+      },
+      "relationships": {
+        "entities": "EntityDefinition"
+      }
+    },
+    "EntityDefinition": {
+      "fields": {
+        "name": "string",
+        "sourceFile": "string"
+      },
+      "relationships": {}
+    },
+    "FieldDefinition": {
+      "fields": {
+        "name": "string",
+        "type": "string"
+      },
+      "relationships": {
+        "owner": "EntityDefinition"
+      }
+    },
+    "RelationshipDefinition": {
+      "fields": {
+        "name": "string",
+        "targetEntity": "string"
+      },
+      "relationships": {
+        "owner": "EntityDefinition"
+      }
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "title": "Cumulative Data Model Generation",
+  "stateId": "015-cumulative-data-model-generation",
+  "parentState": "014-fdc3-intent-interoperability",
+  "description": "Generation-time pipeline that replaces manually authored data-model.md deltas with a YAML-driven, schema-validated, parser-resolved, and deterministically rendered canonical domain model.",
+  "mermaidDirection": "LR",
+  "nodes": [
+    {
+      "id": "developer",
+      "label": "Developer",
+      "kind": "actor",
+      "description": "Authors data-model-changes.yaml; does not edit data-model.md directly."
+    },
+    {
+      "id": "yaml-input",
+      "label": "data-model-changes.yaml",
+      "kind": "artifact",
+      "description": "Machine-readable YAML file defining entity additions, modifications, and removals for the current state."
+    },
+    {
+      "id": "schema-validator",
+      "label": "Schema Validator",
+      "kind": "tool",
+      "description": "Validates data-model-changes.yaml against data-model-schema.yaml. Enforces VR-01501 through VR-01507. Exits non-zero on failure."
+    },
+    {
+      "id": "parent-canonical",
+      "label": "Parent data-model-canonical.json",
+      "kind": "artifact",
+      "description": "Resolved canonical model from the immediate parent state (014-fdc3-intent-interoperability)."
+    },
+    {
+      "id": "parser",
+      "label": "Domain Model Parser",
+      "kind": "tool",
+      "description": "Loads parent canonical model and applies YAML changes (add/change/remove for entities, fields, relationships). Emits data-model-canonical.json for the current state."
+    },
+    {
+      "id": "canonical-json",
+      "label": "data-model-canonical.json",
+      "kind": "artifact",
+      "description": "Fully resolved canonical domain model for the current state. Committed alongside the feature pack for use by child states."
+    },
+    {
+      "id": "renderer",
+      "label": "Markdown Renderer",
+      "kind": "tool",
+      "description": "Consumes data-model-canonical.json and produces data-model.md using deterministic rules from rendering-spec.md."
+    },
+    {
+      "id": "data-model-md",
+      "label": "data-model.md",
+      "kind": "artifact",
+      "description": "Generated markdown file representing the full canonical domain model for the current state. Do not edit by hand."
+    }
+  ],
+  "edges": [
+    {
+      "from": "developer",
+      "to": "yaml-input",
+      "label": "Authors"
+    },
+    {
+      "from": "yaml-input",
+      "to": "schema-validator",
+      "label": "Validated by"
+    },
+    {
+      "from": "schema-validator",
+      "to": "parser",
+      "label": "Valid YAML passed to"
+    },
+    {
+      "from": "parent-canonical",
+      "to": "parser",
+      "label": "Loaded by"
+    },
+    {
+      "from": "parser",
+      "to": "canonical-json",
+      "label": "Emits"
+    },
+    {
+      "from": "canonical-json",
+      "to": "renderer",
+      "label": "Consumed by"
+    },
+    {
+      "from": "renderer",
+      "to": "data-model-md",
+      "label": "Generates"
+    }
+  ]
+}

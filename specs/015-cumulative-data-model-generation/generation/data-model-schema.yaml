@@ -1,0 +1,105 @@
+# Schema: data-model-changes.yaml
+#
+# This file defines the canonical schema for the data-model-changes.yaml format
+# used by all states from 015 onward.
+#
+# Validation is performed by the generation pipeline before the domain model
+# parser runs. Any violation causes generation to exit non-zero with a
+# structured error referencing the applicable VR rule ID.
+
+schema-version: "1.0"
+
+# Allowed top-level keys. Any other key triggers VR-01505.
+top-level-keys:
+  required:
+    - state    # string: the owning state ID
+    - parent   # string: the immediate parent state ID
+  optional:
+    - added    # map<EntityName, EntityDefinition>: entities to add
+    - changed  # map<EntityName, PartialEntityDefinition>: entities to modify
+    - removed  # map<EntityName, RemovalDefinition>: entities/fields/rels to remove
+
+entity-definition:
+  # Used under 'added' and 'changed'
+  fields:
+    type: map
+    key: string           # field name
+    value: string         # field type (e.g. "string", "integer", "boolean", "uuid", "decimal")
+    required: false
+  relationships:
+    type: sequence
+    item:
+      type: map
+      key: string         # relationship name
+      value: string       # target entity name (must exist in resolved canonical model — VR-01503)
+    required: false
+
+removal-definition:
+  # Used under 'removed'
+  # To remove an entire entity: list entity name with no subkeys.
+  # To remove specific fields or relationships: list them with value 'true'.
+  fields:
+    type: map
+    key: string           # field name (must exist in parent model — VR-01502)
+    value:
+      const: true
+    required: false
+  relationships:
+    type: sequence
+    item:
+      type: map
+      key: string         # relationship name
+      value:
+        const: true
+    required: false
+
+validation-rules:
+  - id: VR-01501
+    description: >
+      An entity listed under 'changed' must exist in the parent canonical model.
+    check: every key in 'changed' exists as an entity name in parent data-model-canonical.json
+
+  - id: VR-01502
+    description: >
+      A field listed under 'removed.<entity>.fields' must exist on that entity in the parent
+      canonical model.
+    check: every field key under 'removed.<entity>.fields' exists in parent model for that entity
+
+  - id: VR-01503
+    description: >
+      A relationship target referenced in 'added' or 'changed' must exist in the resolved
+      canonical model (parent model with additions applied before relationship validation).
+    check: every relationship value string in 'added' and 'changed' exists as an entity name
+           in the resolved canonical model
+
+  - id: VR-01504
+    description: >
+      An entity name must not appear in more than one of the 'added', 'changed', or 'removed'
+      sections within the same data-model-changes.yaml file.
+    check: the sets of keys in 'added', 'changed', and 'removed' are mutually disjoint
+
+  - id: VR-01505
+    description: >
+      No top-level key other than 'state', 'parent', 'added', 'changed', or 'removed' may
+      appear in the file.
+    check: every top-level key is in the allowed-top-level-keys list
+
+  - id: VR-01506
+    description: >
+      An entity listed under 'added' must not already exist in the parent canonical model.
+    check: every key in 'added' does not exist as an entity name in parent data-model-canonical.json
+
+  - id: VR-01507
+    description: >
+      An entity listed under 'removed' (at the entity level, not just a field) must exist in
+      the parent canonical model.
+    check: every key in 'removed' exists as an entity name in parent data-model-canonical.json
+
+error-format:
+  # Structured error output format for validation failures
+  template: "[{rule-id}] {human-readable-message}"
+  fields:
+    rule-id: The VR rule identifier (e.g. VR-01501)
+    entity: The entity name involved, if applicable
+    field: The field or relationship name involved, if applicable
+    parent-state: The parent state ID being referenced

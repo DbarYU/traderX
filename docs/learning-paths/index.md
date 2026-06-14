@@ -50,6 +50,7 @@ flowchart TB
   S013_radius_kubernetes_platform["013: Radius Platform on Kubernetes (Optional)"]
   S014_fdc3_intent_interoperability["014: FDC3 Intent Interoperability on C3"]
   S015_state_data_model_merging["015: Automated State Data Model Merging"]
+  S015_cumulative_data_model_generation["015: Cumulative Data Model Generation"]
   S001_baseline_uncontainerized_parity --> S002_edge_proxy_uncontainerized
   S002_edge_proxy_uncontainerized --> S003_agentic_harness_foundation
   S003_agentic_harness_foundation --> S004_containerized_compose_runtime
@@ -64,6 +65,7 @@ flowchart TB
   S012_platform_convergence_c3 --> S013_radius_kubernetes_platform
   S012_platform_convergence_c3 --> S014_fdc3_intent_interoperability
   S014_fdc3_intent_interoperability -.-> S015_state_data_model_merging
+  S014_fdc3_intent_interoperability -.-> S015_cumulative_data_model_generation
   S009_order_management_matcher -.-> S012_platform_convergence_c3
   click S001_baseline_uncontainerized_parity href "/specs/baseline-uncontainerized-parity" "Open State 001 Spec Pack"
   click S002_edge_proxy_uncontainerized href "/specs/edge-proxy-uncontainerized" "Open State 002 Spec Pack"
@@ -80,6 +82,7 @@ flowchart TB
   click S013_radius_kubernetes_platform href "/specs/radius-kubernetes-platform" "Open State 013 Spec Pack"
   click S014_fdc3_intent_interoperability href "/specs/fdc3-intent-interoperability" "Open State 014 Spec Pack"
   click S015_state_data_model_merging href "/specs/state-data-model-merging" "Open State 015 Spec Pack"
+  click S015_cumulative_data_model_generation href "/specs/cumulative-data-model-generation" "Open State 015 Spec Pack"
   classDef convergence fill:#d7f5dd,stroke:#2e7d32,stroke-width:2px
   class S004_containerized_compose_runtime convergence
   class S007_observability_lgtm_compose convergence
@@ -105,7 +108,8 @@ flowchart TB
 | **[`012-platform-convergence-c3`](pathname:///specs/platform-convergence-c3)** [(C3)](pathname:///docs/spec-kit/convergence-states#c3) | [link](pathname:///specs/platform-convergence-c3) | [link](pathname:///specs/platform-convergence-c3/system/architecture) | [link](pathname:///specs/platform-convergence-c3/system/runtime-topology) | [link](pathname:///docs/learning/state-012-platform-convergence-c3) | [code/generated-state-012-platform-convergence-c3](https://github.com/finos/traderX/tree/code/generated-state-012-platform-convergence-c3) |
 | [`013-radius-kubernetes-platform`](pathname:///specs/radius-kubernetes-platform) | [link](pathname:///specs/radius-kubernetes-platform) | [link](pathname:///specs/radius-kubernetes-platform/system/architecture) | [link](pathname:///specs/radius-kubernetes-platform/system/runtime-topology) | [link](pathname:///docs/learning/state-013-radius-kubernetes-platform) | [code/generated-state-013-radius-kubernetes-platform](https://github.com/finos/traderX/tree/code/generated-state-013-radius-kubernetes-platform) |
 | [`014-fdc3-intent-interoperability`](pathname:///specs/fdc3-intent-interoperability) | [link](pathname:///specs/fdc3-intent-interoperability) | [link](pathname:///specs/fdc3-intent-interoperability/system/architecture) | [link](pathname:///specs/fdc3-intent-interoperability/system/runtime-topology) | [link](pathname:///docs/learning/state-014-fdc3-intent-interoperability) | [code/generated-state-014-fdc3-intent-interoperability](https://github.com/finos/traderX/tree/code/generated-state-014-fdc3-intent-interoperability) |
-| [`015-state-data-model-merging`](pathname:///specs/state-data-model-merging) | [link](pathname:///specs/state-data-model-merging) | [link](pathname:///specs/state-data-model-merging/system/architecture) | [link](pathname:///specs/state-data-model-merging/system/runtime-topology) | [link](pathname:///docs/learning/state-015-state-data-model-merging) | [code/generated-state-015-state-data-model-merging](https://github.com/finos/traderX/tree/code/generated-state-015-state-data-model-merging) |
+| [`015-state-data-model-merging`](pathname:///specs/state-data-model-merging) | [link](pathname:///specs/state-data-model-merging) | [link](pathname:///specs/state-data-model-merging/system/architecture) | [link](pathname:///specs/state-data-model-merging/system/system-context) | [link](pathname:///docs/learning/state-015-state-data-model-merging) | [code/generated-state-015-state-data-model-merging](https://github.com/finos/traderX/tree/code/generated-state-015-state-data-model-merging) |
+| [`015-cumulative-data-model-generation`](pathname:///specs/cumulative-data-model-generation) | [link](pathname:///specs/cumulative-data-model-generation) | [link](pathname:///specs/cumulative-data-model-generation/system/architecture) | [link](pathname:///specs/cumulative-data-model-generation/system/runtime-topology) | [link](pathname:///docs/learning/state-015-cumulative-data-model-generation) | [code/generated-state-015-cumulative-data-model-generation](https://github.com/finos/traderX/tree/code/generated-state-015-cumulative-data-model-generation) |
 
 ## Swimlane View
 
@@ -137,6 +141,7 @@ flowchart TB
     S012_platform_convergence_c3["012: Platform Convergence C3 [C3]"]
     S013_radius_kubernetes_platform["013: Radius Platform on Kubernetes (Optional)"]
     S015_state_data_model_merging["015: Automated State Data Model Merging"]
+    S015_cumulative_data_model_generation["015: Cumulative Data Model Generation"]
   end
   S001_baseline_uncontainerized_parity --> S002_edge_proxy_uncontainerized
   S002_edge_proxy_uncontainerized --> S003_agentic_harness_foundation
@@ -152,6 +157,7 @@ flowchart TB
   S012_platform_convergence_c3 --> S013_radius_kubernetes_platform
   S012_platform_convergence_c3 --> S014_fdc3_intent_interoperability
   S014_fdc3_intent_interoperability -.-> S015_state_data_model_merging
+  S014_fdc3_intent_interoperability -.-> S015_cumulative_data_model_generation
   S009_order_management_matcher -.-> S012_platform_convergence_c3
   classDef convergence fill:#d7f5dd,stroke:#2e7d32,stroke-width:2px
 ```

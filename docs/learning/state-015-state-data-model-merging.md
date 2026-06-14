@@ -29,10 +29,7 @@ title: "State 015: Automated State Data Model Merging"
 
 ## Plain-English Code Delta
 
-- **Added:** TBD
-- **Changed:** TBD
-- **Removed:** TBD
-- **Flow Impact:** List impacted flows and acceptance criteria IDs.
+- No functional delta summary is currently available in this state pack.
 
 ## Run This State
 
@@ -44,8 +41,8 @@ TBD
 
 - State spec pack: [/specs/state-data-model-merging](/specs/state-data-model-merging)
 - Architecture: [/specs/state-data-model-merging/system/architecture](/specs/state-data-model-merging/system/architecture)
-- Flows / topology: [/specs/state-data-model-merging/system/runtime-topology](/specs/state-data-model-merging/system/runtime-topology)
-- Research: [link](/specs/state-data-model-merging/research)
-- Data model: [link](/specs/state-data-model-merging/data-model)
-- Quickstart: [link](/specs/state-data-model-merging/quickstart)
+- Flows / topology: [/specs/state-data-model-merging/system/system-context](/specs/state-data-model-merging/system/system-context)
+- Research: `n/a`
+- Data model: `n/a`
+- Quickstart: `n/a`
 

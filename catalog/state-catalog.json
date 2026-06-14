@@ -418,6 +418,29 @@
         "branch": "code/generated-state-015-state-data-model-merging",
         "tag": "generated/015-state-data-model-merging/v1"
       }
+    },
+    {
+      "id": "015-cumulative-data-model-generation",
+      "title": "Cumulative Data Model Generation",
+      "status": "planned",
+      "track": "devex",
+      "convergenceLevel": "none",
+      "isConvergence": false,
+      "dottedParents": [],
+      "primaryLineageRole": "canonical",
+      "featurePack": "specs/015-cumulative-data-model-generation",
+      "previous": [
+        "014-fdc3-intent-interoperability"
+      ],
+      "generation": {
+        "mode": "planned",
+        "entrypoint": "bash pipeline/generate-state.sh 015-cumulative-data-model-generation",
+        "runtime": "TBD"
+      },
+      "publish": {
+        "branch": "code/generated-state-015-cumulative-data-model-generation",
+        "tag": "generated/015-cumulative-data-model-generation/v1"
+      }
     }
   ]
 }

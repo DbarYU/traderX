@@ -21,6 +21,7 @@ This file is generated from `catalog/state-catalog.json`.
 - `012-platform-convergence-c3`
 - `013-radius-kubernetes-platform`
 - `015-state-data-model-merging`
+- `015-cumulative-data-model-generation`
 
 ### Architecture
 
@@ -67,3 +68,4 @@ This file is generated from `catalog/state-catalog.json`.
 | `013-radius-kubernetes-platform` | 012-platform-convergence-c3 | `none` | `false` | `optional` | `specs/013-radius-kubernetes-platform/spec.md` |
 | `014-fdc3-intent-interoperability` | 012-platform-convergence-c3 | `none` | `false` | `canonical` | `specs/014-fdc3-intent-interoperability/spec.md` |
 | `015-state-data-model-merging` | 014-fdc3-intent-interoperability | `none` | `false` | `canonical` | `specs/015-state-data-model-merging/spec.md` |
+| `015-cumulative-data-model-generation` | 014-fdc3-intent-interoperability | `none` | `false` | `canonical` | `specs/015-cumulative-data-model-generation/spec.md` |

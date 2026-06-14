@@ -23,6 +23,7 @@ tracks:
       - 012-platform-convergence-c3
       - 013-radius-kubernetes-platform
       - 015-state-data-model-merging
+      - 015-cumulative-data-model-generation
   architecture:
     description: "Architecture substitutions and platform-component changes."
     states:
@@ -155,3 +156,10 @@ stateCatalog:
     isConvergence: false
     lineageRole: canonical
     spec: specs/015-state-data-model-merging/spec.md
+  - id: 015-cumulative-data-model-generation
+    previous:
+      - 014-fdc3-intent-interoperability
+    convergenceLevel: none
+    isConvergence: false
+    lineageRole: canonical
+    spec: specs/015-cumulative-data-model-generation/spec.md
