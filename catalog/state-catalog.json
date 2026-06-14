@@ -395,6 +395,29 @@
         "branch": "code/generated-state-014-fdc3-intent-interoperability",
         "tag": "generated/014-fdc3-intent-interoperability/v1"
       }
+    },
+    {
+      "id": "015-state-data-model-merging",
+      "title": "Automated State Data Model Merging",
+      "status": "planned",
+      "track": "devex",
+      "convergenceLevel": "none",
+      "isConvergence": false,
+      "dottedParents": [],
+      "primaryLineageRole": "canonical",
+      "featurePack": "specs/015-state-data-model-merging",
+      "previous": [
+        "014-fdc3-intent-interoperability"
+      ],
+      "generation": {
+        "mode": "planned",
+        "entrypoint": "bash pipeline/generate-state.sh 015-state-data-model-merging",
+        "runtime": "TBD"
+      },
+      "publish": {
+        "branch": "code/generated-state-015-state-data-model-merging",
+        "tag": "generated/015-state-data-model-merging/v1"
+      }
     }
   ]
 }
