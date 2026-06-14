@@ -1,22 +1,17 @@
-# Data Model: Automated State Data Model Merging
+# Data Model: Structured Data Model Delta Format
 
 ## Scope
 
-This state defines data model impact relative to `014-fdc3-intent-interoperability`.
+State `015` introduces no changes to the TraderX business domain model. It is a pure pipeline tooling state.
 
 ## Entity Changes
 
-- Added: none (update this section if this state introduces new entities/fields).
-- Changed: none (update this section for schema/contract changes).
+- Added: none.
+- Changed: none.
 - Removed: none.
 
-## Compatibility Notes
+## Notes
 
-- Backward compatibility requirements should be reflected in:
-  - `requirements/functional-delta.md`
-  - `requirements/nonfunctional-delta.md`
-  - `contracts/contract-delta.md`
+This state introduces `data-model-changes.yaml` as the new authoring format for entity deltas going forward. The file format itself is the deliverable of this state — see `contracts/contract-delta.md` for the full schema and structure.
 
-## Traceability
-
-- Link any data-shape deltas back to FR/NFR entries in `spec.md`.
+State `015`'s own `data-model-changes.yaml` contains all empty sections (`added: {}`, `changed: {}`, `removed: {}`) and serves as the canonical reference example of a no-op delta.
