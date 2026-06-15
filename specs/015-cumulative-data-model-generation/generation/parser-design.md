@@ -19,16 +19,19 @@ The domain model parser transforms a validated `data-model-changes.yaml` file an
 
 ## Operation Order
 
-The parser must apply operations in the following strict order to avoid reference resolution issues:
+The resolver applies operations in the following strict deterministic order (FR-01515):
 
 1. **Load** — Read the parent canonical model into an in-memory entity map.
-2. **Add entities** — Apply all entries from the `added` section. Each entity is inserted into the map with its fields and relationships. Relationships are recorded but not yet validated (validation ran at schema check time).
-3. **Modify entities** — Apply all entries from the `changed` section. For each entity:
+2. **Apply `removed`** — Process all removals first:
+   a. For entities listed with field/relationship subkeys: remove the listed fields and relationships from the in-memory entity.
+   b. For entities listed with no subkeys: delete the entire entity from the map.
+3. **Apply `changed`** — Modify existing entities:
    a. Merge fields: add new fields; overwrite existing fields with the new type.
    b. Merge relationships: append new relationships; do not remove unlisted ones.
-4. **Remove fields and relationships** — For entities listed under `removed` with subkeys, remove the listed fields and/or relationships from the in-memory entity.
-5. **Remove entities** — For entities listed under `removed` with no subkeys (or after field/rel removals are complete), delete the entity from the entity map entirely.
-6. **Write output** — Serialize the updated entity map to `data-model-canonical.json` with metadata.
+4. **Apply `added`** — Insert new entities with their fields and relationships.
+5. **Write output** — Serialize the updated entity map to `data-model-canonical.json` with metadata.
+
+This order (`removed → changed → added`) ensures removals never conflict with modifications and new additions are never processed as modifications.
 
 ## Canonical JSON Structure
 

@@ -24,7 +24,15 @@ Prior to this state, each state's `data-model.md` was:
 
 ## Key Decisions
 
-### Decision 1: YAML as the single source of truth
+### Decision 1: Five-phase compiler model
+
+The pipeline is structured as a strict sequence of independent phases: schema validation → semantic validation → state resolution → canonical model materialization → markdown rendering. Each phase has a single responsibility and can fail independently. This makes error attribution unambiguous — a structural error always surfaces in Phase 1, a semantic error always surfaces in Phase 2 — and makes each phase independently testable.
+
+Alternatives considered:
+- Single combined validation pass: rejected because it conflates structural and semantic errors, making failures harder to diagnose and fix.
+- Validation inline with resolution: rejected because it creates implicit dependencies between phases that make testing and error messages harder to reason about.
+
+### Decision 2: YAML as the single source of truth
 
 `data-model-changes.yaml` is the only file authors write. All downstream artifacts (`data-model-canonical.json`, `data-model.md`) are generated from it. This eliminates the dual-maintenance problem.
 
@@ -32,23 +40,31 @@ Alternatives considered:
 - JSON input: rejected in favour of YAML for readability and comment support.
 - Extending `spec.md` with structured sections: rejected because it conflates requirements with data definitions and is harder to parse programmatically.
 
-### Decision 2: One generation of lineage traversal per run
+### Decision 3: Deterministic change application order (`removed → changed → added`)
+
+Applying removals first ensures that a field removed and re-added in the same ChangeSet (a rename pattern) results in clean state rather than a conflict. Applying changes before additions prevents the resolver from trying to modify a newly added entity in the same run. This order is explicitly specified in FR-01515 and enforced by the resolver.
+
+### Decision 4: Legacy compatibility layer
+
+Rather than mandating that all states migrate to YAML before 015 can ship, the pipeline includes a fallback that runs the legacy markdown-based workflow when `data-model-changes.yaml` is absent. This allows migration to proceed incrementally, state by state, without breaking the pipeline for unmigrated states. The fallback is only active when the file is absent; if the file is present but invalid, the pipeline fails normally.
+
+### Decision 5: One generation of lineage traversal per run
 
 The parser only loads the immediate parent's `data-model-canonical.json`. It does not traverse the full state lineage. This keeps generation time bounded and forces each state's canonical model to be fully materialized and committed.
 
 Consequence: the canonical model must be committed as a generation artifact alongside the feature pack. States that skip this will have no parent model for child states to load.
 
-### Decision 3: Schema validation before parsing
+### Decision 6: Schema validation before semantic validation
 
-Validation runs before the parser consumes the YAML. This ensures the parser never operates on malformed input. Validation failures are surfaced as structured error messages referencing the specific VR rule ID.
+Schema validation runs first because structural errors (missing keys, wrong types) make semantic validation meaningless — you cannot check whether `changed.SomeEntity` exists in the parent model if `SomeEntity` is not a valid string. Separating the layers also ensures that error messages are attributable to a single root cause.
 
-### Decision 4: Rule-driven renderer
+### Decision 7: Rule-driven renderer
 
 The markdown renderer is specified as an explicit rule set (`generation/rendering-spec.md`) rather than implemented as ad-hoc string concatenation. This prevents formatting drift between states and makes the renderer testable in isolation.
 
-### Decision 5: Immediate parent diff only
+### Decision 8: Immediate parent comparison only
 
-The diff engine compares the current state's canonical model against its immediate parent's canonical model. Because every state materializes and stores its canonical model, there is no need to compute the diff dynamically from the full lineage chain. This is the same principle applied to the parser traversal depth.
+The resolver compares the current state's ChangeSet against the immediate parent canonical model only. Because every state materializes and stores its canonical model, there is no need to traverse the full lineage chain. This keeps resolution time bounded and makes every state fully self-contained.
 
 ## Risks and Mitigations
 
